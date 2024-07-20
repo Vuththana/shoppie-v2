@@ -49,6 +49,8 @@ class SubCategoryResource extends Resource
                             return 'default';
                         }
                     }),
+                TextColumn::make('category.category_name')
+                    ->badge()
             ])
             ->filters([
                 //

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Shop\Category;
+use App\Models\Shop\Product;
 use App\Models\Shop\SubCategory;
 use App\Models\User;
 use Database\Factories\CategoryFactory;
@@ -27,5 +28,6 @@ class DatabaseSeeder extends Seeder
         //Category
         Category::factory(2)->create();
         SubCategory::factory(10)->create();
+        Product::factory(20)->create();
     }
 }
