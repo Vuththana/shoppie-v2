@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('sub_category_name');
             $table->text('sub_category_description');
             $table->string('slug');
+            $table->boolean('visibility');            
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

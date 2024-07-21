@@ -20,6 +20,7 @@ class CategoryFactory extends Factory
         return [
             'category_name' => fake()->word(),
             'category_description' => fake()->paragraph(),
+            'visibility' => (bool) rand(0,1),
             'slug' => fake()->unique()->slug,
             'user_id' => 1,
         ];

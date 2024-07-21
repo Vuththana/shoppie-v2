@@ -14,16 +14,20 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Shop';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -51,10 +55,17 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('category_name'),
+                TextColumn::make('id')
+                    ->label('ID'),
+                TextColumn::make('category_name')
+                    ->label('Category Name')
+                    ->sortable(),
                 TextColumn::make('category_description')
+                    ->label('Description')
                     ->limit(20),
                 TextColumn::make('slug'),
+                IconColumn::make('visibility')
+                    ->boolean(),
                 TextColumn::make('user.name')
                     ->label('Created By')
                     ->badge()
@@ -69,7 +80,8 @@ class CategoryResource extends Resource
                     }),
             ])
             ->filters([
-                //
+                DateRangeFilter::make('created_at')
+                    ->label('Created At(Between Range)'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

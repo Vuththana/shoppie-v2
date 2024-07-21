@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Shop;
 
 use App\Filament\Resources\Shop\SubCategoryResource\Pages;
 use App\Filament\Resources\Shop\SubCategoryResource\RelationManagers;
+use App\Filament\Resources\Shop\SubCategoryResource\RelationManagers\ProductsRelationManager;
 use App\Models\Shop\SubCategory;
 use App\Models\User;
 use Filament\Forms;
@@ -20,7 +21,8 @@ class SubCategoryResource extends Resource
     protected static ?string $model = SubCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationGroup = 'Shop';
+    protected static ?int $navigationSort = 2;
     public static function form(Form $form): Form
     {
         return $form
@@ -33,8 +35,12 @@ class SubCategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('sub_category_name'),
+                TextColumn::make('id')
+                    ->label('ID'),
+                TextColumn::make('sub_category_name')
+                    ->label('Sub Category Name'),
                 TextColumn::make('sub_category_description')
+                    ->label('Description')
                     ->limit(20),
                 TextColumn::make('slug'),
                 TextColumn::make('user.name')
@@ -68,7 +74,7 @@ class SubCategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductsRelationManager::class,
         ];
     }
 

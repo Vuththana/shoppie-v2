@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Shop\Category;
 use App\Models\Shop\Product;
+use App\Models\Shop\Review;
 use App\Models\Shop\SubCategory;
 use App\Models\User;
 use Database\Factories\CategoryFactory;
@@ -25,10 +26,10 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create()->each(function($user) use ($adminRole) {
             $user->assignRole($adminRole);
         });
-        //Category
+        // Shop
         Category::factory(2)->create();
         SubCategory::factory(10)->create();
-        
         Product::factory(20)->create();
+        Review::factory(10)->create();
     }
 }

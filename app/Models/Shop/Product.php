@@ -14,6 +14,9 @@ class Product extends Model
         'product_name',
         'product_category',
         'slug',
+        'selling_price',
+        'bought_in',
+        'visibility',
         'category_id',
         'sub_category_id',
         'user_id',
@@ -41,5 +44,9 @@ class Product extends Model
 
     public function sub_categories(){
         return $this->hasMany(SubCategory::class);
+    }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
     }
 }
