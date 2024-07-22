@@ -2,6 +2,9 @@
 
 namespace Database\Factories\Shop;
 
+use App\Models\Shop\Review;
+use App\Models\Shop\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +20,10 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'comment' => fake()->paragraph(),
-            'rating' => rand(1,5),
-            'user_id' => rand(1, 10),
-            'product_id' => rand(1, 20),
+            'comment' => $this->faker->paragraph(),
+            'rating' => $this->faker->numberBetween(1, 5),
+            'user_id' => User::inRandomOrder()->first()->id, 
+            'product_id' => Product::inRandomOrder()->first()->id, 
         ];
     }
 }

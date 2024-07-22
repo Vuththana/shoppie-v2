@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Models\Shop;
-
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,41 +11,38 @@ class Product extends Model
 
     protected $fillable = [
         'product_name',
-        'product_category',
+        'product_description',
         'slug',
-        'selling_price',
         'bought_in',
+        'selling_price',
         'visibility',
         'category_id',
         'sub_category_id',
         'user_id',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function category(){
+
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function sub_category(){
+    public function sub_category()
+    {
         return $this->belongsTo(SubCategory::class);
     }
 
-    
-    public function users(){
-        return $this->hasMany(User::class);
-    }
-
-    public function categories(){
-        return $this->hasMany(Category::class);
-    }
-
-    public function sub_categories(){
-        return $this->hasMany(SubCategory::class);
-    }
-
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
