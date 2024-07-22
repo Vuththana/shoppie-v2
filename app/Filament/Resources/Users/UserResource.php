@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Users;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\Pages\CreateUser;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\Users\UserResource\Pages;
+use App\Filament\Resources\Users\UserResource\Pages\CreateUser;
+use App\Filament\Resources\Users\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -23,15 +23,14 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-user';
-    protected static ?string $navigationGroup = 'Users';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                    TextInput::make('name'),
-                    TextInput::make('email'),
+                TextInput::make('name'),
+                TextInput::make('email'),
                 TextInput::make('password')
                     ->password()
                     ->revealable()
@@ -65,12 +64,10 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                    Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
