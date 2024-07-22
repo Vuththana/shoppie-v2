@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Enums;
 
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
@@ -22,8 +22,24 @@ enum OrderStatus: string implements HasLabel, HasIcon, HasColor
             self::Cancelled => 'Cancelled',
         };
     }
+
     public function getIcon(): ?string
     {
-        
+        return match ($this) {
+            self::Pending => 'heroicon-o-clock',
+            self::Processing => 'heroicon-o-arrow-path',
+            self::Completed => 'heroicon-o-check-circle',
+            self::Cancelled => 'heroicon-o-x-circle',
+        };
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Pending => 'primary',
+            self::Processing => 'info',
+            self::Completed => 'success',
+            self::Cancelled => 'danger',
+        };
     }
 }

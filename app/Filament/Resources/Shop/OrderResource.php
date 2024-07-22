@@ -2,13 +2,15 @@
 
 namespace App\Filament\Resources\Shop;
 
+use App\Enums\PaymentMethod as PaymentMethod;
+
 use App\Filament\Resources\Shop\OrderResource\Pages;
+use App\Enums\OrderStatus;
 use App\Models\Shop\Order;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use App\Helpers\OrderStatus;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -45,14 +47,12 @@ class OrderResource extends Resource
                 ToggleButtons::make('status')
                     ->inline()
                     ->options(OrderStatus::class)
-                    ->default(OrderStatus::Pending)
-                    ->icons([
-                        'pending' => 'heroicon-o-arrow-path'
-                    ])
+                    ->default(OrderStatus::Pending->value)
                     ->label('Payment Status'),
-                TextInput::make('payment_method')
-                    ->required()
-                    ->label('Payment Method'),
+                    Select::make('payment_method')
+                    ->label('Payment Method')
+                    ->options(PaymentMethod::class)
+                    ->required(),
                 TextInput::make('total_amount')
                     ->required()
                     ->label('Total Price'),
@@ -69,8 +69,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('order_number')->label('Order Number')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('user.name')->label('User Name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('product.product_name')->label('Product Name')->sortable()->searchable()->toggleable(),
-
-                Tables\Columns\TextColumn::make('status')->label('Payment Status')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('status')->label('Payment Status')->sortable()->searchable()->badge(),
                 Tables\Columns\TextColumn::make('payment_method')->label('Payment Method')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('order_date')->label('Order Date')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('total_amount')->label('Total')->sortable()->searchable(),
