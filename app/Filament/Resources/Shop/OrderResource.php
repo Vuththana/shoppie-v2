@@ -8,10 +8,13 @@ use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
+use App\Helpers\OrderStatus;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrderResource extends Resource
@@ -39,12 +42,12 @@ class OrderResource extends Resource
                     ->relationship('products', 'product_name')
                     ->multiple()
                     ->disabled(),
-                Select::make('payment_status')
-                    ->required()
-                    ->options([
-                        'Paid' => 'Paid',
-                        'Pending' => 'Pending',
-                        'Cancelled' => 'Cancelled',
+                ToggleButtons::make('status')
+                    ->inline()
+                    ->options(OrderStatus::class)
+                    ->default(OrderStatus::Pending)
+                    ->icons([
+                        'pending' => 'heroicon-o-arrow-path'
                     ])
                     ->label('Payment Status'),
                 TextInput::make('payment_method')
