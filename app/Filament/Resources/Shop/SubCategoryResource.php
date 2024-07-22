@@ -8,6 +8,10 @@ use App\Filament\Resources\Shop\SubCategoryResource\RelationManagers\ProductsRel
 use App\Models\Shop\SubCategory;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,7 +31,17 @@ class SubCategoryResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Card::make([
+                    TextInput::make('sub_category_name')
+                        ->label('Sub Category Name'),
+                    Textarea::make('sub_category_description')
+                        ->label('Description')
+                        ->rows(10)
+                        ->cols(20),
+                    TextInput::make('slug'),
+                    Select::make('category_id')
+                        ->relationship('category', 'category_name'),
+                ])
             ]);
     }
 

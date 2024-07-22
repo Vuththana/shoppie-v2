@@ -13,6 +13,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -22,6 +23,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Components\Tab;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -48,6 +50,11 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Card::make([
+                FileUpload::make('image')
+                    ->directory('product-images')
+                    ->image()
+                    ->imageEditor()
+                    ->circleCropper(),
                     TextInput::make('product_name')
                     ->label('Product Name')
                     ->required(),
@@ -104,12 +111,15 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),
+                ImageColumn::make('image')
+                    ->size(60),
                 TextColumn::make('product_name')
                     ->label('Product Name')
                     ->searchable(),
                 TextColumn::make('product_description')
                     ->label('Description')
                     ->limit(10),
+                TextColumn::make('stock'),
                 TextColumn::make('selling_price')
                     ->label('Selling Price')
                     ->color(function(string $state) {
@@ -172,8 +182,9 @@ class ProductResource extends Resource
                         return 'default';
                     }),
                 TextColumn::make('created_at')
-                    ->label('Created at')
-                    ->dateTime('d-M-y'),
+                    ->label('Created At')
+                    ->dateTime('d-M-y')
+                    ->toggleable(isToggledHiddenByDefault:true),
             ])
             ->filters([
                 DateRangeFilter::make('created_at')

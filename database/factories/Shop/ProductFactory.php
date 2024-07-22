@@ -17,15 +17,17 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_name' => $this->faker->word(),
-            'product_description' => $this->faker->sentence(),
-            'slug' => $this->faker->slug(),
-            'bought_in' => $this->faker->randomFloat(2, 1, 100),
-            'selling_price' => $this->faker->randomFloat(2, 1, 100),
-            'visibility' => $this->faker->boolean(),
-            'category_id' => \App\Models\Shop\Category::inRandomOrder()->first()->id, 
-            'sub_category_id' => \App\Models\Shop\SubCategory::inRandomOrder()->first()->id, 
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id, 
+            'product_name' => fake()->word(),
+            'product_description' => fake()->paragraph(),
+            'slug' => fake()->unique()->slug,
+            'stock' => rand(1, 40),
+            'bought_in' => fake()->randomFloat(2, 10, 1000),
+            'selling_price' => fake()->randomFloat(2, 10, 1000),
+            'visibility' => (bool) rand(0,1),
+            'category_id' => rand(1,2),
+            'sub_category_id' => rand(1,5),
+            'user_id' => rand(1,10),
+
         ];
     }
 }
