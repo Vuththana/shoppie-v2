@@ -25,8 +25,13 @@ class DatabaseSeeder extends Seeder
 
 
         $adminRole = Role::create(['name' => 'Admin']);
+        $customerRole = Role::create(['name' => 'Customer']);
         User::factory(10)->create()->each(function($user) use ($adminRole) {
             $user->assignRole($adminRole);
+        });
+
+        User::factory(10)->create()->each(function($user) use ($customerRole) {
+            $user->assignRole($customerRole);
         });
         // Shop
         Category::factory(2)->create();

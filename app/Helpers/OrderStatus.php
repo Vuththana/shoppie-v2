@@ -2,11 +2,9 @@
 
 namespace App\Helpers;
 
-use Filament\Support\Contracts\HasColor;
-use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
  
-enum OrderStatus: string implements HasLabel, HasIcon, HasColor
+enum OrderStatus: string implements HasLabel
 {
     case Pending = 'pending';
     case Processing = 'processing';
@@ -21,9 +19,5 @@ enum OrderStatus: string implements HasLabel, HasIcon, HasColor
             self::Completed => 'Completed',
             self::Cancelled => 'Cancelled',
         };
-    }
-    public function getIcon(): ?string
-    {
-        
     }
 }

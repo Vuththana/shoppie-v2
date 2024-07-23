@@ -29,11 +29,11 @@ class OrderFactory extends Factory
         return [
             'user_id' =>User::inRandomOrder()->first()->id,
             'product_id'=> Product::inRandomOrder()->first()->id,
-            'order_number' => $this->faker->unique()->numerify('ORD#####'),
-            'order_date' => $this->faker->dateTime(),
-            'total_amount' => $this->faker->randomFloat(2, 10, 1000),
-            'status' => $this->faker->randomElement(['pending', 'processing', 'completed', 'cancelled']),
-            'payment_method' => $this->faker->randomElement(['credit card', 'debit card', 'paypal']),
+            'order_number' => fake()->unique()->numerify('ORD#####'),
+            'order_date' => fake()->dateTime(),
+            'total_amount' => fake()->randomFloat(2, 10, 1000),
+            'status' => fake()->randomElement(['pending', 'processing', 'completed', 'cancelled']),
+            'payment_method' => fake()->randomElement(['credit card', 'debit card', 'paypal']),
         ];
     }
 }

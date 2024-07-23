@@ -14,6 +14,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -21,7 +22,9 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static ?string $navigationIcon = 'heroicon-s-shopping-cart';
+    protected static ?string $navigationGroup = 'Shop';
+    protected static ?int $navigationSort = 5;
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -66,14 +69,33 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_number')->label('Order Number')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('user.name')->label('User Name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('product.product_name')->label('Product Name')->sortable()->searchable()->toggleable(),
-
-                Tables\Columns\TextColumn::make('status')->label('Payment Status')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('payment_method')->label('Payment Method')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('order_date')->label('Order Date')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('total_amount')->label('Total')->sortable()->searchable(),
+                TextColumn::make('order_number')
+                    ->label('Order Number')
+                    ->sortable()->searchable(),
+                TextColumn::make('user.name')
+                    ->label('User Name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('product.product_name')->label('Product Name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('status')
+                    ->label('Payment Status')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('payment_method')
+                    ->label('Payment Method')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('order_date')
+                    ->label('Order Date')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('total_amount')
+                    ->label('Total Price')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 // Add any necessary filters here

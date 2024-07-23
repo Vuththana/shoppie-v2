@@ -7,6 +7,8 @@ use App\Filament\Resources\Users\UserResource\Pages\CreateUser;
 use App\Filament\Resources\Users\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
@@ -23,20 +25,24 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-users';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name'),
-                TextInput::make('email'),
-                TextInput::make('password')
-                    ->password()
-                    ->revealable()
-                    ->dehydrateStateUsing(fn($state) => Hash::make($state)) //Format password to * when using
-                    ->dehydrated(fn($state) => filled($state))
-                    ->required(fn(Page $livewire) => ($livewire instanceof CreateUser)),
+                Card::make([
+                    TextInput::make('name'),
+                    TextInput::make('email'),
+                    TextInput::make('password')
+                        ->password()
+                        ->revealable()
+                        ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                        ->dehydrated(fn($state) => filled($state))
+                        ->required(fn(Page $livewire) => ($livewire instanceof CreateUser)),
+                    Select::make('roles')
+                        ->relationship('roles', 'name')->preload(),
+                ])
             ]);
     }
 
@@ -54,7 +60,6 @@ class UserResource extends Resource
                         if($state === $userhasRole) {
                             return 'success';
                         }
-                        return 'default';
                     }
                 }),
                 TextColumn::make('created_at')
