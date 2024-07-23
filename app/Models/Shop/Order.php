@@ -2,6 +2,8 @@
 
 namespace App\Models\Shop;
 
+use App\Enums\PaymentMethod;
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -9,6 +11,10 @@ use App\Models\User;
 class Order extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'status' => OrderStatus::class,
+        'payment_method' => PaymentMethod::class,
+    ];
 
     protected $fillable = [
         'order_number',
