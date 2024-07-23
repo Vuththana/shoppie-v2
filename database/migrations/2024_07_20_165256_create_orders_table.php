@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('order_date');
             $table->decimal('total_amount', 10, 2);
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
-            $table->enum('payment_method', ['KhQR', 'credit card', 'debit card'])->default('KhQR')->change();
+            $table->enum('payment_method', ['khqr', 'credit card', 'debit card'])->default('KhQR');
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->timestamps();
         });

@@ -63,7 +63,7 @@ class UserResource extends Resource
                     }
                 }),
                 TextColumn::make('created_at')
-                    ->dateTime('d-M-y  H:i:s'),
+                    ->dateTime('d-M-y  H:i'),
             ])
             ->filters([
                 //

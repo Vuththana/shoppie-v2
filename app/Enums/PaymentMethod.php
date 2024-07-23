@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasLabel;
 
 enum PaymentMethod: string implements HasLabel, HasColor, HasIcon
 {
-    case KhQR = 'KhQR';
+    case KhQR = 'khqr';
     case CreditCard = 'credit card'; 
     case DebitCard = 'debit card';   
 

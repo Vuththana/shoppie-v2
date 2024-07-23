@@ -33,7 +33,7 @@ class OrderFactory extends Factory
             'order_date' => fake()->dateTime(),
             'total_amount' => fake()->randomFloat(2, 10, 1000),
             'status' => fake()->randomElement(['pending', 'processing', 'completed', 'cancelled']),
-            'payment_method' => fake()->randomElement(['credit card', 'debit card', 'paypal']),
+            'payment_method' => fake()->randomElement(['khqr', 'credit card', 'debit card']),
         ];
     }
 }

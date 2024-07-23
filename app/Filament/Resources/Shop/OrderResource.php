@@ -49,9 +49,6 @@ class OrderResource extends Resource
                     ->inline()
                     ->options(OrderStatus::class)
                     ->default(OrderStatus::Pending)
-                    ->icons([
-                        'pending' => 'heroicon-o-arrow-path'
-                    ])
                     ->label('Payment Status'),
                 TextInput::make('payment_method')
                     ->required()
@@ -71,21 +68,25 @@ class OrderResource extends Resource
             ->columns([
                 TextColumn::make('order_number')
                     ->label('Order Number')
-                    ->sortable()->searchable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('user.name')
                     ->label('User Name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('product.product_name')->label('Product Name')
+                TextColumn::make('product.product_name')
+                    ->label('Product Name')
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('status')
                     ->label('Payment Status')
+                    ->badge()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('payment_method')
                     ->label('Payment Method')
+                    ->badge()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('order_date')
@@ -94,6 +95,7 @@ class OrderResource extends Resource
                     ->searchable(),
                 TextColumn::make('total_amount')
                     ->label('Total Price')
+                    ->money('USD')
                     ->sortable()
                     ->searchable(),
             ])
