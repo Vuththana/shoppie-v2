@@ -110,6 +110,15 @@ class OrderResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+            ])
+            ->footer([
+                Tables\Columns\TextColumn::make('Total Completed Orders')
+                    ->label('Total Completed Orders')
+                    ->value(fn () => Order::where('status', OrderStatus::Completed->value)->count()),
+
+                Tables\Columns\TextColumn::make('Total Completed Amount')
+                    ->label('Total Completed Amount')
+                    ->value(fn () => '$' . number_format(Order::where('status', OrderStatus::Completed->value)->sum('total_amount'), 2)),
             ]);
     }
 
