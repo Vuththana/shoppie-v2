@@ -26,6 +26,8 @@ class OrderResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 5;
 
+    
+
     public static function form(Forms\Form $form): Forms\Form
     {
         return $form
