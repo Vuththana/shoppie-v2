@@ -8,7 +8,7 @@ use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use App\Helpers\OrderStatus;
+use App\Enums\OrderStatus;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;

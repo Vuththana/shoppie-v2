@@ -20,10 +20,6 @@ enum OrderStatus: string implements HasLabel
             self::Cancelled => 'Cancelled',
         };
     }
-<<<<<<< HEAD:app/Helpers/OrderStatus.php
-}
-=======
-
     public function getIcon(): ?string
     {
         return match ($this) {
@@ -44,4 +40,3 @@ enum OrderStatus: string implements HasLabel
         };
     }
 }
->>>>>>> e79a91a1e2ec1b3bfa9dbd6742e8c42393c27b6b:app/Enums/OrderStatus.php
