@@ -148,7 +148,7 @@ class ProductResource extends Resource
                         Sum::make()
                             ->label('Stock Value')
                             ->money('USD'),
-                        ),
+                        ),  
                 TextColumn::make('category.category_name')
                     ->badge()
                     ->toggleable(isToggledHiddenByDefault: true),

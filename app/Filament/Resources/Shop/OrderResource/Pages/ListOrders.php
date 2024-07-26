@@ -22,25 +22,7 @@ class ListOrders extends ListRecords
         ];
     }
 
-    protected function getTableSummary(): array
-    {
-        $completedOrders = Order::where('status', OrderStatus::Completed->value)->get();
-        $totalCompletedOrders = $completedOrders->count();
-        $totalCompletedAmount = $completedOrders->sum('total_amount');
-
-        return [
-            TextColumn::make('total_completed_orders')
-                ->label('Total Completed Orders')
-                ->value(fn () => $totalCompletedOrders)
-                ->extraAttributes(['class' => 'font-semibold text-lg']),
-
-            TextColumn::make('total_completed_amount')
-                ->label('Total Completed Amount')
-                ->value(fn () => '$' . number_format($totalCompletedAmount, 2))
-                ->extraAttributes(['class' => 'font-semibold text-lg']),
-        ];
-    }
-
+    
     public function getTabs(): array
     {
         return [
