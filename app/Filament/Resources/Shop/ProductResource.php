@@ -9,6 +9,7 @@ use App\Models\Shop\Category;
 use App\Models\Shop\Product;
 use App\Models\Shop\SubCategory;
 use App\Models\User;
+use Filament\Tables\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -194,7 +195,10 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
+                Action::make('View Qr Code')
+                    ->icon('heroicon-o-qr-code')
+                    ->url(fn(Product $record): string => static::getUrl('qr-code', ['record' => $record])),
+                ])
             ->bulkActions([
                     Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -215,6 +219,7 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'qr-code' => Pages\ViewProduct::route('/{record}/qr-code'),
         ];
     }
 }

@@ -24,6 +24,7 @@ class ProductFactory extends Factory
             'bought_in' => fake()->randomFloat(2, 10, 1000),
             'selling_price' => fake()->randomFloat(2, 10, 1000),
             'visibility' => (bool) rand(0,1),
+            'sku' => fake()->unique()->numerify('SKU#####'),
             'category_id' => rand(1,2),
             'sub_category_id' => rand(1,5),
             'user_id' => rand(1,10),

@@ -21,6 +21,11 @@ class ListOrders extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+    public function __construct(){
+        $this->orderByStatuses = Order::select('status', \DB::raw('count(*) as order_count'))
+            ->groupBy('status')
+            ->pluck('order_count', 'status');
+    }
 
     protected function getTableSummary(): array
     {
@@ -45,10 +50,26 @@ class ListOrders extends ListRecords
     {
         return [
             null => Tab::make('All')->query(fn ($query) => $query),
-            'pending' => Tab::make('Pending')->query(fn ($query) => $query->where('status', OrderStatus::Pending->value)),
-            'processing' => Tab::make('Processing')->query(fn ($query) => $query->where('status', OrderStatus::Processing->value)),
-            'completed' => Tab::make('Completed')->query(fn ($query) => $query->where('status', OrderStatus::Completed->value)),
-            'cancelled' => Tab::make('Cancelled')->query(fn ($query) => $query->where('status', OrderStatus::Cancelled->value)),
+            'pending' => Tab::make('Pending')
+                ->badge($this->orderByStatuses[OrderStatus::Pending->value] ?? '0')
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('status', OrderStatus::Pending->value);
+                }),
+            'processing' => Tab::make('Processing')                
+            ->badge($this->orderByStatuses[OrderStatus::Processing->value] ?? '0')
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('status', OrderStatus::Processing->value);
+            }),
+            'completed' => Tab::make('Completed')            
+            ->badge($this->orderByStatuses[OrderStatus::Completed->value] ?? '0')
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('status', OrderStatus::Completed->value);
+            }),
+            'cancelled' => Tab::make('Cancelled')            
+            ->badge($this->orderByStatuses[OrderStatus::Cancelled->value] ?? '0')
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('status', OrderStatus::Cancelled->value);
+            }),
         ];
     }
 }

@@ -19,6 +19,7 @@ class Product extends Model
         'bought_in',
         'selling_price',
         'visibility',
+        'sku',
         'category_id',
         'sub_category_id',
         'user_id',
