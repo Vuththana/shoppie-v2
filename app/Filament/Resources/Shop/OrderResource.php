@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Shop;
 
+use App\Filament\Resources\OrderResource\Pages\ViewQrCode;
 use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Models\Shop\Order;
 use Filament\Forms;
@@ -10,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use App\Enums\OrderStatus;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -146,6 +148,9 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('View Qr Code')
+                ->icon('heroicon-o-qr-code')
+                ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

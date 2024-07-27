@@ -14,6 +14,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "malzariey/filament-daterangepicker-filter": "^2.8",
+        "milon/barcode": "^11.0",
         "mokhosh/filament-rating": "^1.1",
         "spatie/laravel-permission": "^6.9",
         "tightenco/ziggy": "^2.0"

@@ -15,6 +15,7 @@ class Product extends Model
         'product_description',
         'slug',
         'stock',
+        'sku',
         'selling_price',
         'bought_in',
         'selling_price',
