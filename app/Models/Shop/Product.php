@@ -15,6 +15,7 @@ class Product extends Model
         'product_description',
         'slug',
         'stock',
+        'sku',
         'selling_price',
         'bought_in',
         'selling_price',
@@ -45,8 +46,9 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function orders()
+    public function orderProducts()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(OrderProduct::class);
     }
+    
 }

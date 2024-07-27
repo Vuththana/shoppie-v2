@@ -2,20 +2,24 @@
 
 namespace App\Filament\Resources\Shop;
 
+use App\Filament\Resources\OrderResource\Pages\ViewQrCode;
 use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Models\Shop\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use App\Enums\OrderStatus;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrderResource extends Resource
@@ -42,6 +46,20 @@ class OrderResource extends Resource
                     ->searchable()
                     ->disabled()
                     ->dehydrated(),
+                Repeater::make('orderProducts')
+                    ->relationship('orderProducts')
+                    ->schema([
+                        Select::make('product_id')
+                            ->relationship('product', 'product_name')
+                            ->required()
+                            ->label('Product Name'),
+                        TextInput::make('quantity')
+                            ->required()
+                            ->label('Quantity'),
+                    ])
+                    ->columns(2)
+                    ->label('Products')
+                    ->collapsed(),
                 Select::make('products')
                     ->label('Products')
                     ->relationship('product', 'product_name')
@@ -57,7 +75,8 @@ class OrderResource extends Resource
                     ->label('Payment Method'),
                 TextInput::make('total_amount')
                     ->required()
-                    ->label('Total Price'),
+                    ->label('Total Price')
+                    ->dehydrated(false),
                 DatePicker::make('order_date')
                     ->required()
                     ->label('Order Date'),
@@ -76,8 +95,20 @@ class OrderResource extends Resource
                     ->label('User Name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('product.product_name')
-                    ->label('Product Name')
+                TextColumn::make('orderProducts.product.product_name')
+                    ->label('Product Names')
+                    ->getStateUsing(function ($record) {
+                        $productNames = $record->orderProducts->pluck('product.product_name')->toArray();
+                        $productCount = count($productNames);
+                        $displayNames = implode(', ', array_slice($productNames, 0, 2));
+                        $remainingCount = $productCount - 3;
+                        return $remainingCount > 0
+                            ? "$displayNames, and $remainingCount more"
+                            : $displayNames;
+                    })
+                    ->tooltip(function ($record) {
+                        return implode(', ', $record->orderProducts->pluck('product.product_name')->toArray());
+                    })
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
@@ -85,7 +116,13 @@ class OrderResource extends Resource
                     ->label('Payment Status')
                     ->badge()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->summarize([
+                        Sum::make()
+                            ->query(function (Builder $query) { // Specify Builder here
+                                return $query->where('status', OrderStatus::Completed);
+                            })->label('Total Completed Payments'),
+                    ]),
                 TextColumn::make('payment_method')
                     ->label('Payment Method')
                     ->badge()
@@ -97,9 +134,15 @@ class OrderResource extends Resource
                     ->searchable(),
                 TextColumn::make('total_amount')
                     ->label('Total Price')
+                    ->getStateUsing(function ($record) {
+                        return $record->total_amount;
+                    })
                     ->money('USD')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->summarize(
+                        Count::make()->query(fn (Builder $query) => $query->where('status', 'completed')),
+                    ),
             ])
             ->filters([
                 // Add any necessary filters here
@@ -107,6 +150,9 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('View Qr Code')
+                ->icon('heroicon-o-qr-code')
+                ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

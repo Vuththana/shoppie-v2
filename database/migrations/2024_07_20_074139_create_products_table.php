@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('product_description');
             $table->string('slug');
             $table->integer('stock');
+            $table->string('sku');
             $table->decimal('bought_in', 8, 2);
             $table->decimal('selling_price', 8, 2);
             $table->boolean('visibility');

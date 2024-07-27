@@ -6,10 +6,10 @@ use App\Filament\Resources\Shop\ProductResource\Pages;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers\ReviewsRelationManager;
 use App\Models\Shop\Category;
+use App\Models\Shop\Order;
 use App\Models\Shop\Product;
 use App\Models\Shop\SubCategory;
 use App\Models\User;
-use Filament\Tables\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
@@ -33,6 +33,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Filament\Tables\Actions\Action;
 
 class ProductResource extends Resource
 {
@@ -149,7 +150,7 @@ class ProductResource extends Resource
                         Sum::make()
                             ->label('Stock Value')
                             ->money('USD'),
-                        ),
+                        ),  
                 TextColumn::make('category.category_name')
                     ->badge()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -219,7 +220,7 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
-            'qr-code' => Pages\ViewProduct::route('/{record}/qr-code'),
+            'qr-code' => Pages\ViewQrCode::route('{record}/qr-code'),
         ];
     }
 }
