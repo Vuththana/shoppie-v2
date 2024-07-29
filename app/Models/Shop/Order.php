@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Shop;
 
 use App\Enums\PaymentMethod;

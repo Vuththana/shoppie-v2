@@ -18,7 +18,8 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\Summarizers\Sum;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder;
+
 
 class OrderResource extends Resource
 {
@@ -66,7 +67,8 @@ class OrderResource extends Resource
                     ->options(OrderStatus::class)
                     ->default(OrderStatus::Pending)
                     ->label('Payment Status'),
-                TextInput::make('payment_method')
+                
+                    TextInput::make('payment_method')
                     ->required()
                     ->label('Payment Method'),
                 TextInput::make('total_amount')
@@ -114,11 +116,16 @@ class OrderResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->summarize([
-                        Sum::make()
-                            ->query(function (Builder $query) { // Specify Builder here
-                                return $query->where('status', OrderStatus::Completed);
+                     Sum::make()
+                            ->query(function (Builder $query) { 
+                            return $query->where('status', 'completed');
                             })->label('Total Completed Payments'),
                     ]),
+                TextColumn::make('status')
+                ->label('Payment Status')
+                ->badge()
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('payment_method')
                     ->label('Payment Method')
                     ->badge()
@@ -128,18 +135,23 @@ class OrderResource extends Resource
                     ->label('Order Date')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('total_amount')
-                    ->label('Total Price')
-                    ->getStateUsing(function ($record) {
-                        return $record->total_amount;
-                    })
-                    ->money('USD')
-                    ->sortable()
-                    ->searchable()
-                    ->summarize(
-                        Count::make()->query(fn (Builder $query) => $query->where('status', 'completed')),
-                    ),
-            ])
+                    TextColumn::make('total_amount')
+                ->label('Total Price')
+                ->getStateUsing(function ($record) {
+                    return $record->total_amount;
+                })
+                ->money('USD')
+                ->sortable()
+                ->searchable()
+                ->summarize([
+                    Sum::make()
+                        ->query(function (Builder $query) {
+                            return $query->where('status', OrderStatus::Completed);
+                        })
+                        ->money('USD')
+                        ->label('Total Price of Completed Payments'),
+                ]),
+        ])
             ->filters([
                 // Add any necessary filters here
             ])
