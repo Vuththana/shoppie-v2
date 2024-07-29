@@ -150,9 +150,6 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Action::make('View Qr Code')
-                ->icon('heroicon-o-qr-code')
-                ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
