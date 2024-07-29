@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Shop;
 
+use App\Filament\Resources\OrderResource\Pages\ViewQrCode;
 use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Models\Shop\Order;
 use Filament\Forms;
@@ -10,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use App\Enums\OrderStatus;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -28,6 +30,8 @@ class OrderResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-s-shopping-cart';
     protected static ?string $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 5;
+
+    
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -59,9 +63,9 @@ class OrderResource extends Resource
                     ->collapsed(),
                 Select::make('products')
                     ->label('Products')
-                    ->relationship('products', 'product_name')
+                    ->relationship('product', 'product_name')
                     ->multiple()
-                    ->disabled(),
+                    ->preload(),
                 ToggleButtons::make('status')
                     ->inline()
                     ->options(OrderStatus::class)
@@ -158,6 +162,9 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('View Qr Code')
+                ->icon('heroicon-o-qr-code')
+                ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

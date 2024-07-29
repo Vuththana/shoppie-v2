@@ -6,6 +6,7 @@ use App\Filament\Resources\Shop\ProductResource\Pages;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers\ReviewsRelationManager;
 use App\Models\Shop\Category;
+use App\Models\Shop\Order;
 use App\Models\Shop\Product;
 use App\Models\Shop\SubCategory;
 use App\Models\User;
@@ -32,6 +33,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Filament\Tables\Actions\Action;
 
 class ProductResource extends Resource
 {
@@ -194,7 +196,10 @@ class ProductResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
+                Action::make('View Qr Code')
+                    ->icon('heroicon-o-qr-code')
+                    ->url(fn(Product $record): string => static::getUrl('qr-code', ['record' => $record])),
+                ])
             ->bulkActions([
                     Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -215,6 +220,7 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'qr-code' => Pages\ViewQrCode::route('{record}/qr-code'),
         ];
     }
 }
