@@ -1,5 +1,6 @@
 import ApplicationLogo from '@/Components/ApplicationLogo'
 import Dropdown from '@/Components/Dropdown'
+import TextInput from '@/Components/TextInput'
 import { User } from '@/types'
 import { Link } from '@inertiajs/react'
 import React, { PropsWithChildren, ReactNode } from 'react'
@@ -15,10 +16,17 @@ export default function AuthenticationLayout({user, header, children}: PropsWith
                             <Link href="/">
                                 <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 items-center"/>
                             </Link>
+                            <p className='text-xl font-bold mx-2 items-center'>Shoppie</p>
+                        </div>
+                        <div className='form-control my-auto ml-[700px]'>
+                            <TextInput
+                            text='What are you looking for?'
+                            >
+                            </TextInput>
                         </div>
 
                         <div className='hidden sm:flex sm:items-center sm:ms-6'>
-                            <div className='ms-3 relative'>
+                            <div className='ms-3 absolute right-[400px]'>
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className='inline-flex rounded-md'>
@@ -39,6 +47,9 @@ export default function AuthenticationLayout({user, header, children}: PropsWith
                         </div>
                     </div>
                 </div>  
+            </div>
+            <div className=''>
+
             </div>
         </nav>
     </div>

@@ -5,8 +5,11 @@ import AuthenticationLayout from '@/Layouts/AuthenticationLayout'
 import { PageProps } from '@/types'
 import { Link } from '@inertiajs/react'
 import React from 'react'
+import ProductCard from '@/Components/ProductCard';
 
 export default function Welcome({auth}: PageProps) {
+
+
   return (
     <>
       <AuthenticationLayout

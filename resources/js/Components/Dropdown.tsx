@@ -9,7 +9,7 @@ const DropDownContext = createContext<{
 }>({
     open: false,
     setOpen: () => {},
-    toggleOpen: () => {},   
+    toggleOpen: () => {},
 });
 
 const Dropdown = ({ children }: PropsWithChildren) => {
