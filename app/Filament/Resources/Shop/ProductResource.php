@@ -73,7 +73,6 @@ class ProductResource extends Resource
                     ->required(),
                 TextInput::make('selling_price')
                     ->helperText('Please enter "." for the decimal point')
-                    ->mask('0.00')
                     ->label('Selling Price')
                     ->type('number')
                     ->step('any')

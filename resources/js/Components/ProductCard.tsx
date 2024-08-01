@@ -10,6 +10,10 @@ interface ProductCardProps {
   [key: string]: any
 }
 
+const truncateText = (text: string, length: number) => {
+  return text.length > length ? text.substring(0, length) + '...' : text;
+}
+
 const ProductCard: React.FC<ProductCardProps> = ({
   image,
   product_name,
@@ -22,14 +26,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className='relative m-10 w-[300px] flex flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:shadow-lg hover:scale-110 duration-300' {...props}>
           <Link href='#'
           className='relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl'>
-            <img src={image} className='object-cover w-full'/>
+            <img src={(`/storage/${image}`)} className='object-cover w-full'/>
           </Link>
           <div className='mt-4 px-5 pb-5'>
             <Link href='#'>
               <h5 className='text-xl tracking-light text-slate-900'>{product_name}</h5>
             </Link>
             <Link href='#'>
-              <h5 className='text-sm tracking-light text-gray-500'>{product_description}</h5>
+              <h5 className='text-sm tracking-light text-gray-500'>{truncateText(product_description, 45)}</h5>
             </Link>
           <h5 className='text-sm tracking-tight text-gray-700'>
             {stock > 0 ? `In stock: ${stock}` : 'Out of stock'}

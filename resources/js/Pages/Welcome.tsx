@@ -17,6 +17,8 @@ export default function Welcome({auth}: PageProps) {
       header = {<h2 className='font-semibold text-xl text-gray-800 leading-tight'></h2>}
       >
       </AuthenticationLayout>
+
+      <img src="/storage/product-image/01J43YAZFWGNBGP93EDCYA8YTN.png" alt="ewqe" />
     </>
   )
 }

@@ -5,7 +5,7 @@ export default function ApplicationLogo({className = '',children, ...props}: Img
         <img 
             {...props}
             src='/storage/logo/shoppie_logo.png'
-            className={`h-10}` + className}
+            className={className}
         >
             {children}
         </img>

@@ -1,6 +1,8 @@
 import ProductCard from '@/Components/ProductCard';
+import AuthenticationLayout from '@/Layouts/AuthenticationLayout';
 import { GET_ALL_PRODUCTS } from '@/Services/ProductService';
-import React, { useEffect, useState } from 'react'
+import { PageProps, User } from '@/types';
+import React, { PropsWithChildren, ReactNode, useEffect, useState } from 'react'
 interface Product {
     image: string;
     product_name: string;
@@ -10,7 +12,7 @@ interface Product {
     id: number;
   }
 
-export default function HomePage() {
+export default function HomePage({user, header, children}: PropsWithChildren<{user: User, header?: ReactNode}>) {
 
     const [data, setData] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -25,7 +27,12 @@ export default function HomePage() {
 
     return (
         <>
-            <div className='container'>
+        <AuthenticationLayout
+            
+        >
+
+        </AuthenticationLayout>
+            <div className='container pt-24'>
                 <div className='flex flex-wrap justify-center items-center'>
                 {data.map(product => (
                     <ProductCard

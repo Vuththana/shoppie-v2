@@ -13,3 +13,6 @@ Route::get('/product', function () {
     return Inertia::render('HomePage');
 });
 
+Route::get('/order', function() {
+    return Inertia::render('Shop/OrderPage');
+});

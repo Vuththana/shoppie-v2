@@ -2,15 +2,18 @@ import { useState, createContext, useContext, PropsWithChildren, Dispatch, SetSt
 import { Link, InertiaLinkProps } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
-const DropDownContext = createContext<{
+interface DropDownContextType {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
     toggleOpen: () => void;
-}>({
+  }
+  
+  // Create context with default values
+  const DropDownContext = createContext<DropDownContextType>({
     open: false,
     setOpen: () => {},
     toggleOpen: () => {},
-});
+  });
 
 const Dropdown = ({ children }: PropsWithChildren) => {
     const [open, setOpen] = useState(false);
@@ -26,12 +29,12 @@ const Dropdown = ({ children }: PropsWithChildren) => {
     );
 };
 
-const Trigger = ({ children }: PropsWithChildren) => {
+const Trigger = ({ children }: PropsWithChildren<{ children: (props: { open: boolean }) => React.ReactNode }>) => {
     const { open, setOpen, toggleOpen } = useContext(DropDownContext);
 
     return (
         <>
-            <div onClick={toggleOpen}>{children}</div>
+            <div onClick={toggleOpen}>{children({ open })}</div>
 
             {open && <div className="fixed inset-0 z-40" onClick={() => setOpen(false)}></div>}
         </>
@@ -96,3 +99,4 @@ Dropdown.Content = Content;
 Dropdown.Link = DropdownLink;
 
 export default Dropdown;
+export { DropDownContext };
