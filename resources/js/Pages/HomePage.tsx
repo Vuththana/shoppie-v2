@@ -12,6 +12,14 @@ interface Product {
     id: number;
   }
 
+  interface Category {
+    category_name: string;
+    category_description: string;
+    slug: number;
+    visibility: number;
+    user_id: number;
+  }
+
 export default function HomePage({user, header, children}: PropsWithChildren<{user: User, header?: ReactNode}>) {
 
     const [data, setData] = useState<Product[]>([]);

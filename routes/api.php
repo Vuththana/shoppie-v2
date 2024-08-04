@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\ProductController;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
+use App\Models\Shop\Category;
 use App\Models\Shop\Order;
 use App\Models\Shop\Product;
 use Illuminate\Http\Request;
@@ -16,6 +19,12 @@ Route::get('/products', function() {
 
     return ProductResource::collection($users);
  });
+
+Route::get('/categories', function() {
+    $categories = Category::orderBy('category_name')->get();
+
+    return CategoryResource::collection($categories);
+});
 
 Route::get('/user', function (Request $request) {
     return $request->user();
