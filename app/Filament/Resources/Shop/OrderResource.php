@@ -19,7 +19,9 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\Summarizers\Sum;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 
 class OrderResource extends Resource
 {
@@ -118,7 +120,7 @@ class OrderResource extends Resource
                         Sum::make()
                             ->query(function (Builder $query) { 
                                 return $query->where('status', OrderStatus::Completed);
-                            })->label('Total Completed Payments'),
+                            })->label('Total Order'),
                     ]),
                 TextColumn::make('payment_method')
                     ->label('Payment Method')
@@ -129,27 +131,33 @@ class OrderResource extends Resource
                     ->label('Order Date')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('total_amount')
-                    ->label('Total Price')
-                    ->getStateUsing(function ($record) {
-                        return $record->total_amount;
-                    })
-                    ->money('USD')
-                    ->sortable()
-                    ->searchable()
-                    ->summarize(
-                        Count::make()->query(fn (Builder $query) => $query->where('status', 'completed')),
-                    ),
+                
+TextColumn::make('total_amount')
+->label('Total Price')
+->getStateUsing(function (Order $record) {
+    return $record->total_amount;
+})
+->money('USD')
+->sortable()
+->searchable()
+->summarize(
+    Count::make()
+        ->query(fn (Builder $query) => $query->where('status', OrderStatus::Completed))
+        ->label('Total Completed Payments')
+),
             ])
             ->filters([
                 // Add any necessary filters here
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Action::make('View Qr Code')
-                    ->icon('heroicon-o-qr-code')
-                    ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
+                Tables\Actions\ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
+                Tables\Actions\Action::make('viewQrCode')
+    ->label('View QR Code')
+    ->icon('heroicon-o-qr-code')
+    ->url(fn(Order $record): string => route('qr-code', ['order' => $record->id]))
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -162,7 +170,7 @@ class OrderResource extends Resource
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
-            
+            'qr-code' => Pages\ViewQr::route('{record}/qr-code'),
         ];
     }
 }

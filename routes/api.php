@@ -10,6 +10,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('reviews', ReviewController::class);
-});
+Route::apiResource('reviews', ReviewController::class);
+

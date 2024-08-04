@@ -11,10 +11,9 @@ class ReviewController extends Controller
      * Display a listing of the reviews.
      */
     public function index()
-{
-    return response()->json(Review::all());
-}
-
+    {
+        return Review::all();
+    }
 
     /**
      * Store a newly created review in storage.
@@ -27,9 +26,12 @@ class ReviewController extends Controller
             'product_id' => 'required|exists:products,id',
         ]);
 
-        $review = new Review($validated);
-        $review->user_id = auth()->id();
-        $review->save();
+        $review = Review::create([
+            'comment' => $validated['comment'],
+            'rating' => $validated['rating'],
+            'user_id' => auth()->id(),
+            'product_id' => $validated['product_id'],
+        ]);
 
         return response()->json($review, 201);
     }
