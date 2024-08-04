@@ -44,16 +44,4 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class, 'order_products');
     }
-
-    public function orderProducts()
-    {
-        return $this->hasMany(OrderProduct::class);
-    }
-
-    public function getTotalAmountAttribute()
-    {
-        return $this->orderProducts->sum(function ($orderProduct) {
-            return $orderProduct->product->selling_price * $orderProduct->quantity;
-        });
-    }
 }

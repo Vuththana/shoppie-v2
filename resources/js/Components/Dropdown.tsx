@@ -2,15 +2,18 @@ import { useState, createContext, useContext, PropsWithChildren, Dispatch, SetSt
 import { Link, InertiaLinkProps } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
-const DropDownContext = createContext<{
+interface DropDownContextType {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
     toggleOpen: () => void;
-}>({
+  }
+  
+  // Create context with default values
+  const DropDownContext = createContext<DropDownContextType>({
     open: false,
     setOpen: () => {},
     toggleOpen: () => {},
-});
+  });
 
 const Dropdown = ({ children }: PropsWithChildren) => {
     const [open, setOpen] = useState(false);
@@ -26,17 +29,21 @@ const Dropdown = ({ children }: PropsWithChildren) => {
     );
 };
 
-const Trigger = ({ children }: PropsWithChildren) => {
-    const { open, setOpen, toggleOpen } = useContext(DropDownContext);
+interface TriggerProps {
+    children: (props: { open: boolean }) => React.ReactNode;
+}
+
+const Trigger: React.FC<TriggerProps> = ({ children }) => {
+    const { open, toggleOpen } = useContext(DropDownContext);
 
     return (
         <>
-            <div onClick={toggleOpen}>{children}</div>
-
-            {open && <div className="fixed inset-0 z-40" onClick={() => setOpen(false)}></div>}
+            <div onClick={toggleOpen}>{children({ open })}</div>
+            {open && <div className="fixed inset-0 z-40" onClick={() => toggleOpen()}></div>}
         </>
     );
 };
+
 
 const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }: PropsWithChildren<{ align?: 'left'|'right', width?: '48', contentClasses?: string }>) => {
     const { open, setOpen } = useContext(DropDownContext);
@@ -96,3 +103,4 @@ Dropdown.Content = Content;
 Dropdown.Link = DropdownLink;
 
 export default Dropdown;
+export { DropDownContext };

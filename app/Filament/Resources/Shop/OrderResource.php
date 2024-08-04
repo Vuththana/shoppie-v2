@@ -150,14 +150,11 @@ TextColumn::make('total_amount')
                 // Add any necessary filters here
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
-                Tables\Actions\Action::make('viewQrCode')
-    ->label('View QR Code')
-    ->icon('heroicon-o-qr-code')
-    ->url(fn(Order $record): string => route('qr-code', ['order' => $record->id]))
-
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Action::make('View Qr Code')
+                ->icon('heroicon-o-qr-code')
+                ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
