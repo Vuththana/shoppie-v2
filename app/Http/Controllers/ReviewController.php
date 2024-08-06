@@ -24,12 +24,13 @@ class ReviewController extends Controller
             'comment' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'product_id' => 'required|exists:products,id',
+            'user_id' => 'required'
         ]);
 
-        $review = Review::create([
+        $review = Review::create([  
             'comment' => $validated['comment'],
             'rating' => $validated['rating'],
-            'user_id' => auth()->id(),
+            'user_id' => $request->user_id,
             'product_id' => $validated['product_id'],
         ]);
 
