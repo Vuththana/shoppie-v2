@@ -6,6 +6,7 @@ import { PageProps } from '@/types'
 import { Link } from '@inertiajs/react'
 import React from 'react'
 import ProductCard from '@/Components/ProductCard';
+import Footer from '@/Components/Footer';
 
 export default function Welcome({auth}: PageProps) {
 
@@ -19,6 +20,8 @@ export default function Welcome({auth}: PageProps) {
       </AuthenticationLayout>
 
       <img src="/storage/product-image/01J43YAZFWGNBGP93EDCYA8YTN.png" alt="ewqe" />
+
+      <Footer />
     </>
   )
 }

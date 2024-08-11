@@ -1,7 +1,6 @@
 import ApplicationLogo from '@/Components/ApplicationLogo'
 import Dropdown, { DropDownContext } from '@/Components/Dropdown'
-import SearchBar from '@/Components/SearchBarWithDropdown'
-import Selector from '@/Components/Selector'
+import Footer from '@/Components/Footer'
 import TextInput from '@/Components/TextInput'
 import { User } from '@/types'
 import { Link } from '@inertiajs/react'
@@ -24,8 +23,8 @@ const ChevronUpIcon = () => (
 
 export default function AuthenticationLayout({user, header, children}: PropsWithChildren<{user: User, header?: ReactNode}>) {
   return (
-    
-    <div className='shadow-md w-full fixed top-0 left-0 z-50'>
+    <>
+    <header className='shadow-md w-full fixed top-0 left-0 z-50'>
       <div className='md:flex bg-white py-4 md:px-10 px-7'>
         <div className='font-bold text-2xl cursor-pointer flex items-center text-gray-800'>
         <span className='mr-1 pt-2 items-center'>
@@ -38,9 +37,8 @@ export default function AuthenticationLayout({user, header, children}: PropsWith
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </div>
-        <SearchBar />
-      
       </div>
-    </div>
+    </header>
+    </>
   )
 }
