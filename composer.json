@@ -8,7 +8,7 @@
         "php": "^8.2",
         "blade-ui-kit/blade-heroicons": "^2.4",
         "filament/filament": "^3.2",
-        "flowframe/laravel-trend": "*",
+        "flowframe/laravel-trend": "^0.2.0",
         "ibrahimbougaoua/filament-rating-star": "^1.0",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/framework": "^11.9",

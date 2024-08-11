@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
@@ -29,3 +30,7 @@ Route::get('/categories', function() {
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::apiResource('reviews', ReviewController::class);
+
+
