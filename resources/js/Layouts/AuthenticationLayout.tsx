@@ -1,6 +1,7 @@
 import ApplicationLogo from '@/Components/ApplicationLogo'
 import Dropdown, { DropDownContext } from '@/Components/Dropdown'
 import Footer from '@/Components/Footer'
+import Searchbar from '@/Components/SearchBar'
 import TextInput from '@/Components/TextInput'
 import { User } from '@/types'
 import { Link } from '@inertiajs/react'
@@ -32,10 +33,8 @@ export default function AuthenticationLayout({user, header, children}: PropsWith
         </span>
         <p className='mt-3'>Shoppie</p>
         </div>
-        <div className='text-3xl absolute right-8 top-6 cursor-pointer md:hidden'>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
+        <div>
+          <Searchbar />
         </div>
       </div>
     </header>

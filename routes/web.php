@@ -23,4 +23,3 @@ require __DIR__.'/auth.php';
 Route::get('/order', function() {
     return Inertia::render('Shop/OrderPage');
 });
-

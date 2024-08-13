@@ -13,15 +13,18 @@ export default function Welcome({auth}: PageProps) {
 
   return (
     <>
+    <div className='min-h-screen flex flex-col'>
       <AuthenticationLayout
       user = {auth.user}
       header = {<h2 className='font-semibold text-xl text-gray-800 leading-tight'></h2>}
       >
       </AuthenticationLayout>
+      <main>
 
-      <img src="/storage/product-image/01J43YAZFWGNBGP93EDCYA8YTN.png" alt="ewqe" />
-
+      </main>
+      <img src="/storage/product-image/01J43YAZFWGNBGP93EDCYA8YTN.png" alt="product-images" />
       <Footer />
+      </div>
     </>
   )
 }

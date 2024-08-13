@@ -3,6 +3,7 @@ import AuthenticationLayout from '@/Layouts/AuthenticationLayout';
 import { GET_ALL_PRODUCTS } from '@/Services/ProductService';
 import { PageProps, User } from '@/types';
 import React, { PropsWithChildren, ReactNode, useEffect, useState } from 'react'
+import Footer from '@/Components/Footer';
 interface Product {
     image: string;
     product_name: string;
@@ -12,13 +13,6 @@ interface Product {
     id: number;
   }
 
-  interface Category {
-    category_name: string;
-    category_description: string;
-    slug: number;
-    visibility: number;
-    user_id: number;
-  }
 
 export default function HomePage({user, header, children}: PropsWithChildren<{user: User, header?: ReactNode}>) {
 
@@ -35,12 +29,13 @@ export default function HomePage({user, header, children}: PropsWithChildren<{us
 
     return (
         <>
+        <div className='min-h-screen flex flex-col'>
         <AuthenticationLayout
-            
+        
         >
-
         </AuthenticationLayout>
-            <div className='container pt-24'>
+        <main>
+        <div className='container pt-24'>
                 <div className='flex flex-wrap justify-center items-center'>
                 {data.map(product => (
                     <ProductCard
@@ -55,7 +50,9 @@ export default function HomePage({user, header, children}: PropsWithChildren<{us
             ))}
                 </div>
             </div>
-        
+        </main>
+            <Footer />
+            </div>
           </>
     )
 }
