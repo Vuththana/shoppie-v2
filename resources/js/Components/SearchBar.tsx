@@ -1,5 +1,73 @@
-import React, { PropsWithChildren } from 'react'
+import { Transition } from '@headlessui/react';
+import React, { Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from 'react'
+import { createContext } from 'react'
 
+interface OpenSearchBar {
+  open: boolean,
+  setOpen: Dispatch<SetStateAction<boolean>>
+  toggleOpen: () => void
+}
+
+const SearchContext = createContext<OpenSearchBar>({
+  open: false,
+  setOpen: () => {},
+  toggleOpen: () => {},
+});
+
+const SearchbarDropdown = ({children}: PropsWithChildren) => {
+    const [open, setOpen] = useState(false)
+    const toggleOpen = () => {
+      setOpen((previousState) => !previousState)
+    };
+
+    return (
+      <SearchContext.Provider value={{open, setOpen, toggleOpen}}>
+        <div className='relative'>{children}</div>
+      </SearchContext.Provider>
+    )
+  }
+  
+  interface TriggerProps {
+    children: (props: { open: boolean }) => React.ReactNode;
+  }
+
+  const Trigger: React.FC<TriggerProps> = ({children}) => {
+    const { open, toggleOpen} = useContext(SearchContext);
+    return (
+      <>
+        <div onClick={toggleOpen}>{children({open})}</div>
+        {open && <div className="fixed inset-0 z-40" onClick={() => toggleOpen()}></div>}
+      </>
+    )
+  }
+
+  const Content = ({align = 'right', width = '90', contentClasses = 'py-8 bg-white', children}: PropsWithChildren<{align?: 'left'|'right', width?: '90', contentClasses?: string }>) => {
+    const {open, setOpen} = useContext(SearchContext);
+
+    let alignmentClasses = 'origin-top'
+
+    if (align === 'left') {
+      alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0'
+    } else if (align === 'right') {
+      alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0'
+    }
+
+    let widthClasses = '';
+
+    if (width === '90') {
+      widthClasses = 'w-90';
+    }
+
+    return (
+      <>
+        <Transition
+          show={open}
+          enter="transition ease-out duration-200"
+          enterFrom=""
+        />
+      </>
+    )
+  }
 const SearchbarIcon = () => (
     <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -29,9 +97,9 @@ const Searchbar = ({children}: PropsWithChildren) => {
               </svg>
               <span className="sr-only">Search</span>
             </button>
-            <div className="text-3xl absolute right-8 top-6 cursor-pointer hidden md:block">
+            <div className="text-3xl cursor-pointer hidden md:block">
               <SearchbarIcon />
-              <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-200 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
+              <input type="text" id="search-navbar" className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-200 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
             </div>
           </div>
     </div>

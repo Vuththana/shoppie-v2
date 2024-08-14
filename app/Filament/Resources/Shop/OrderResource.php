@@ -94,20 +94,8 @@ class OrderResource extends Resource
                     ->label('User Name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('orderProducts.product.product_name')
-                    ->label('Product Names')
-                    ->getStateUsing(function ($record) {
-                        $productNames = $record->orderProducts->pluck('product.product_name')->toArray();
-                        $productCount = count($productNames);
-                        $displayNames = implode(', ', array_slice($productNames, 0, 2));
-                        $remainingCount = $productCount - 3;
-                        return $remainingCount > 0
-                            ? "$displayNames, and $remainingCount more"
-                            : $displayNames;
-                    })
-                    ->tooltip(function ($record) {
-                        return implode(', ', $record->orderProducts->pluck('product.product_name')->toArray());
-                    })
+                TextColumn::make('product.product_name')
+                    ->label('Product Name')
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
@@ -152,9 +140,6 @@ TextColumn::make('total_amount')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Action::make('View Qr Code')
-                ->icon('heroicon-o-qr-code')
-                ->url(fn(Order $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
