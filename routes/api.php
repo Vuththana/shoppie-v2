@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('/orders', OrderController::class);
 
-Route::get('/products', function() {
-    $users = Product::orderBy('product_name')->get();
-
-    return ProductResource::collection($users);
- });
+// Route::get('/products', function() {
+//     $users = Product::orderBy('product_name')->get();
+//     return ProductResource::collection($users);
+//  });
+Route::apiResource('/products', ProductController::class);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::get('/categories', function() {
     $categories = Category::orderBy('category_name')->get();

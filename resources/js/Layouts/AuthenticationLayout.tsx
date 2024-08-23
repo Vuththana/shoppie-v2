@@ -22,7 +22,7 @@ const ChevronUpIcon = () => (
 
 
 
-export default function AuthenticationLayout({user, header, children}: PropsWithChildren<{user: User, header?: ReactNode}>) {
+export default function AuthenticationLayout({user, header, children}: PropsWithChildren<{user?: User, header?: ReactNode}>) {
   return (
     <>
     <header className='shadow-md w-full fixed top-0 left-0 z-50'>
@@ -38,6 +38,12 @@ export default function AuthenticationLayout({user, header, children}: PropsWith
         </div>
       </div>
     </header>
+    {/* <main className='mt-24'>
+        <div className='container mx-auto'>
+          {children}
+        </div>
+      </main> */}
+      
     </>
   )
 }
