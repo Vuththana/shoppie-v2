@@ -4,12 +4,29 @@ import { Head } from '@inertiajs/react';
 import AuthenticationLayout from '@/Layouts/AuthenticationLayout'
 import { PageProps } from '@/types'
 import { Link } from '@inertiajs/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '@/Components/ProductCard';
 import Footer from '@/Components/Footer';
+import HotProduct from '@/Components/HotProduct'
+interface Product {
+  image: string;
+  product_name: string;
+  product_description: string;
+  stock: number;
+  selling_price: number;
+  id: number;
+}
 
 export default function Welcome({auth}: PageProps) {
+  const [data, setData] = useState<Product[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+      fetch('http://127.0.0.1:8000/api/products')
+      .then((response) => response.json())
+      .then(res => setData(res.data))
+      .catch(err => setError(err))
+  }, [])
 
   return (
     <>
@@ -20,9 +37,37 @@ export default function Welcome({auth}: PageProps) {
       >
       </AuthenticationLayout>
       <main>
-
+      <section className="text-grey-100 relative justify-center flex">
+            <div className="max-w-[26ch] justify-center">
+                <div className="flex justify-center mx-auto mt-[96px]">
+                    <div className="mt-[100px] font-[680] text-center">
+                        <h1 className="text-bold text-dark max-w-[16ch] sm:max-w-[60ch] text-6xl">Safety Trust Instant</h1>
+                        <div className="max-w-[100%] font-light text-center text-dark">
+                            <p>Shoppie ensures the safety and quality of all products, earning the trust of our customers through rigorous standards and exceptional service.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section className='mt-7 border-t p-10 '>
+        <div className='mx-10'>
+                <p className='text-xl font-semibold'>🔥 Discover Our Hot Selling Products</p>
+                <div className='flex flex-wrap justify-center items-center'>
+                {data.map(product => (
+                    <HotProduct
+                        image={product.image}
+                        product_name={product.product_name}
+                        product_description={product.product_description}
+                        stock={product.stock}
+                        selling_price={product.selling_price}
+                        id={product.id} 
+                        key={product.id}>
+                    </HotProduct>
+            ))}
+                </div>
+            </div>
+        </section>
       </main>
-      <img src="/storage/product-image/01J43YAZFWGNBGP93EDCYA8YTN.png" alt="product-images" />
       <Footer />
       </div>
     </>
