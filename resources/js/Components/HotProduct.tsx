@@ -28,14 +28,9 @@ const truncateText = (text: string, length: number) => {
     badge,
     ...props
   }) => {
-    const hasHot = stock && stock > 5;
     const hasDiscount = discount_price && discount_price < selling_price;
 
     return (
-        <>
-        {hasHot ? (
-            <></>
-        ):(
             <div className='flex m-8 flex-col w-full max-w-xs h-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl'>
             <Link href='#' className='relative'>
               <img src={`/storage/${image}`} alt={product_name} className='w-full h-48 object-cover'/>
@@ -79,8 +74,6 @@ const truncateText = (text: string, length: number) => {
               </Link>
             </div>
           </div>
-        )}
-        </>
     )
   }
 

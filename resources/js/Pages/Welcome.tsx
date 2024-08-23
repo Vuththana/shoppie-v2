@@ -17,16 +17,24 @@ interface Product {
   id: number;
 }
 
+
 export default function Welcome({auth}: PageProps) {
   const [data, setData] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-      fetch('http://127.0.0.1:8000/api/products')
-      .then((response) => response.json())
-      .then(res => setData(res.data))
-      .catch(err => setError(err))
-  }, [])
+    fetch('http://127.0.0.1:8000/api/hot-products')
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res); 
+            setData(res);
+        })
+        .catch((err) => setError(err.message));
+}, []);
+
+if (error) {
+    return <div className='text-black'>Error: {error}</div>;
+}
 
   return (
     <>
@@ -51,7 +59,7 @@ export default function Welcome({auth}: PageProps) {
         </section>
         <section className='mt-7 border-t p-10 '>
         <div className='mx-10'>
-                <p className='text-xl font-semibold'>🔥 Discover Our Hot Selling Products</p>
+                <p className='sm:text-xl font-semibold text-sm'>🔥 Discover Our Hot Selling Products</p>
                 <div className='flex flex-wrap justify-center items-center'>
                 {data.map(product => (
                     <HotProduct
