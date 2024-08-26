@@ -1,58 +1,111 @@
 import ProductCard from '@/Components/ProductCard';
 import AuthenticationLayout from '@/Layouts/AuthenticationLayout';
-import { GET_ALL_PRODUCTS } from '@/Services/ProductService';
-import { PageProps, User } from '@/types';
+
+import { PageProps } from '@/types';
 import React, { PropsWithChildren, ReactNode, useEffect, useState } from 'react'
 import Footer from '@/Components/Footer';
+
+interface User {
+    id: number;
+    name: string;
+  }
+interface HomePageProps {
+     user: User;
+    header?: ReactNode;
+}
+
 interface Product {
-    image: string;
+    id: number;
     product_name: string;
     product_description: string;
-    stock: number;
     selling_price: number;
+    slug: string;
+    visibility: number;
+    category_id: number;
+    sub_category_id: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    image?: string;
+}
+
+interface Review {
     id: number;
-  }
+    comment: string;
+    rating: number;
+    user_id: number;
+    product_id: number;
+    created_at: string;
+    updated_at: string;
+}
 
-
-export default function HomePage({user, header, children}: PropsWithChildren<{user: User, header?: ReactNode}>) {
-
-    const [data, setData] = useState<Product[]>([]);
+const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
+    const [products, setProducts] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/products')
-        .then((response) => response.json())
-        .then(res => setData(res.data))
-        .catch(err => setError(err))
-    }, [])
+        async function fetchProducts() {
+            try {
+                const productResponse = await fetch('http://127.0.0.1:8000/api/products');
+                const productsData = await productResponse.json();
 
+
+                const reviewsResponse = await fetch('http://127.0.0.1:8000/api/reviews');
+                const reviewsData: Review[] = await reviewsResponse.json();
+
+                
+                const productsWithRatings = productsData.map((product: Product) => {
+                    const productReviews = reviewsData.filter(review => review.product_id === product.id);
+                    const totalRating = productReviews.reduce((sum, review) => sum + review.rating, 0);
+                    const averageRating = productReviews.length > 0 ? totalRating / productReviews.length : null;
+                    return { ...product, averageRating } as Product & { averageRating: number | null };
+                });
+
+
+                setProducts(productsWithRatings);
+            } catch (err) {
+                if (err instanceof Error) {
+                    console.error('Error fetching data:', err.message);
+                    setError(err.message);
+                } else {
+                    console.error('Unknown error:', err);
+                    setError('An unknown error occurred.');
+                }
+            }
+        }
+        fetchProducts();
+    }, []);
 
     return (
         <>
-        <div className='min-h-screen flex flex-col'>
-        <AuthenticationLayout
-        
-        >
-        </AuthenticationLayout>
-        <main>
-        <div className='container pt-24'>
-                <div className='flex flex-wrap justify-center items-center'>
-                {data.map(product => (
-                    <ProductCard
-                        image={product.image}
-                        product_name={product.product_name}
-                        product_description={product.product_description}
-                        stock={product.stock}
-                        selling_price={product.selling_price}
-                        id={product.id} 
-                        key={product.id}>
-                    </ProductCard>
-            ))}
+            <AuthenticationLayout
+          
+            >
+                
+            </AuthenticationLayout>
+            <div className="mt-24 text-center">
+                <h1 className="text-4xl font-bold mb-4">Welcome to Our Shop</h1>
+                <p className="text-lg mb-8">Find the best products at unbeatable prices.</p>
+
+            </div>
+
+            <div className='container mx-auto px-4 py-8'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
+                    {products.map(product => (
+                        <ProductCard
+                            image={product.image || './images/image.png'}
+                            product_name={product.product_name}
+                            product_description={product.product_description}
+                            selling_price={product.selling_price}
+                            id={product.id}
+                            rating={product.averageRating}
+                            key={product.id}>
+                        </ProductCard>
+                    ))}
                 </div>
             </div>
-        </main>
-            <Footer />
-            </div>
-          </>
+
+        </>
     )
-}
+};
+ export default HomePage;
