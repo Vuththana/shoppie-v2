@@ -26,10 +26,10 @@ class Review extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function users() {
-        return $this->hasMany(User::class);
-    }
-    public function products() {
-        return $this->hasMany(Product::class);
-    }
+    // public function users() {
+    //     return $this->hasMany(User::class);
+    // }
+    // public function products() {
+    //     return $this->hasMany(Product::class);
+    // }
 }

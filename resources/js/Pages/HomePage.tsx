@@ -27,6 +27,8 @@ interface Product {
     created_at: string;
     updated_at: string;
     image?: string;
+    averageRating?: number;
+
 }
 
 interface Review {
@@ -41,8 +43,13 @@ interface Review {
 
 const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
     const [products, setProducts] = useState<Product[]>([]);
+    const [val , setval] = useState('gggg');
     const [error, setError] = useState<string | null>(null);
-
+    const [arrVal , setArrVal] = useState({
+        name:'',
+        age:0,
+        gender:''
+    }); 
     useEffect(() => {
         async function fetchProducts() {
             try {
@@ -76,6 +83,8 @@ const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
         fetchProducts();
     }, []);
 
+   
+
     return (
         <>
             <AuthenticationLayout
@@ -87,8 +96,8 @@ const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
                 <h1 className="text-4xl font-bold mb-4">Welcome to Our Shop</h1>
                 <p className="text-lg mb-8">Find the best products at unbeatable prices.</p>
 
-            </div>
-
+            </div> 
+          
             <div className='container mx-auto px-4 py-8'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
                     {products.map(product => (
