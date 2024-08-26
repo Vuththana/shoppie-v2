@@ -22,12 +22,6 @@ Route::get('/products', function() {
     return ProductResource::collection($users);
  });
 
-Route::get('/categories', function() {
-    $categories = Category::orderBy('category_name')->get();
-
-    return CategoryResource::collection($categories);
-});
-
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -37,3 +31,5 @@ Route::apiResource('/reviews', ReviewController::class);
 
 // Scope Hot Products Api
 Route::apiResource('/hot-products', HotProductController::class);
+
+Route::apiResource('/categories', CategoryController::class);

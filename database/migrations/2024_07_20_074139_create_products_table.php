@@ -18,11 +18,10 @@ return new class extends Migration
             $table->string('product_description');
             $table->string('slug');
             $table->integer('stock');
-            $table->string('sku');
+            $table->string('sku')->unique();
             $table->decimal('bought_in', 8, 2);
             $table->decimal('selling_price', 8, 2);
             $table->boolean('visibility');
-            $table->string('sku')->unique();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('sub_category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
