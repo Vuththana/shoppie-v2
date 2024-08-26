@@ -31,6 +31,7 @@ class OrderFactory extends Factory
             'product_id'=> Product::inRandomOrder()->first()->id,
             'order_number' => fake()->unique()->numerify('ORD#####'),
             'order_date' => fake()->dateTime(),
+            'quantity' => fake()->randomNumber(1, 10),
             'total_amount' => fake()->randomFloat(2, 10, 1000),
             'status' => fake()->randomElement(['pending', 'processing', 'completed', 'cancelled']),
             'payment_method' => fake()->randomElement(['khqr', 'credit card', 'debit card']),

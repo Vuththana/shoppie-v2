@@ -119,20 +119,20 @@ class OrderResource extends Resource
                     ->label('Order Date')
                     ->sortable()
                     ->searchable(),
-                
-TextColumn::make('total_amount')
-->label('Total Price')
-->getStateUsing(function (Order $record) {
-    return $record->total_amount;
-})
-->money('USD')
-->sortable()
-->searchable()
-->summarize(
-    Count::make()
-        ->query(fn (Builder $query) => $query->where('status', OrderStatus::Completed))
-        ->label('Total Completed Payments')
-),
+                TextColumn::make('quantity'),
+                TextColumn::make('total_amount')
+                    ->label('Total Price')
+                    ->getStateUsing(function (Order $record) {
+                        return $record->total_amount;
+                    })
+                    ->money('USD')
+                    ->sortable()
+                    ->searchable()
+                    ->summarize(
+                        Count::make()
+                            ->query(fn (Builder $query) => $query->where('status', OrderStatus::Completed))
+                            ->label('Total Completed Payments')
+                    ),
             ])
             ->filters([
                 // Add any necessary filters here

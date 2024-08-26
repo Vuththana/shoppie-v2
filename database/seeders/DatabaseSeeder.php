@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        // Icons for Category
+        $icons = [
+            ''
+        ];
 
         $adminRole = Role::create(['name' => 'Admin']);
         $customerRole = Role::create(['name' => 'Customer']);
@@ -36,8 +40,8 @@ class DatabaseSeeder extends Seeder
         // Shop
         Category::factory(2)->create();
         SubCategory::factory(10)->create();
-        Product::factory(20)->create();
-        Review::factory(10)->create();
+        Product::factory(5)->create();
+        Review::factory(30)->create();
         Order::factory(10)->create();
     }
 }

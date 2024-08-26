@@ -21,6 +21,7 @@ class Order extends Model
         'user_id',
         'payment_status',
         'payment_method',
+        'quantity',
         'total_amount',
         'order_date',
     ];

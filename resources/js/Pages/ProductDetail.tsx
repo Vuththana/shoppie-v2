@@ -100,25 +100,31 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   };
 
   return (
-    <div className="font-sans bg-gray-50">
-      <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
-        <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 shadow-lg p-8 rounded-lg bg-white">
-          <div className="lg:col-span-3 w-full lg:sticky top-0">
-            <div className="relative">
-              <img src={imageUrl} alt={product.product_name} className="w-full h-auto rounded-lg object-cover" />
-              <button type="button" className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24px" fill="#ccc" className="hover:fill-[#333]" viewBox="0 0 64 64">
-                  <path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="mt-6 flex flex-wrap justify-center gap-2">
-              {/* Additional images or thumbnails */}
-              <img src={imageUrl} alt="Thumbnail" className="w-24 h-24 rounded-lg object-cover cursor-pointer shadow-md" />
-              <img src={imageUrl} alt="Thumbnail" className="w-24 h-24 rounded-lg object-cover cursor-pointer shadow-md" />
-              <img src={imageUrl} alt="Thumbnail" className="w-24 h-24 rounded-lg object-cover cursor-pointer shadow-md" />
-            </div>
+    <div className="product-detail container mx-auto px-4 py-8">
+      <div className="flex flex-col md:flex-row">
+      <img 
+          src={`/storage/${imageUrl}`} 
+          alt={product.product_name} 
+          className="w-full md:w-1/2 object-cover" 
+        />
+        <div className="product-info md:w-1/2 md:pl-8">
+          <h1 className="text-3xl font-bold mb-4">{product.product_name}</h1>
+          <p className="text-lg text-gray-700 mb-4">{product.product_description}</p>
+          <div className="flex items-center">
+            {hasDiscount ? (
+              <>
+                <span className="text-3xl font-bold text-red-500">
+                  ${discountPrice?.toFixed(2)}
+                </span>
+                <span className="text-xl text-gray-500 line-through ml-4">
+                  ${sellingPrice.toFixed(2)}
+                </span>
+              </>
+            ) : (
+              <span className="text-3xl font-bold text-slate-900">
+                ${sellingPrice.toFixed(2)}
+              </span>
+            )}
           </div>
 
           <div className="lg:col-span-2">
