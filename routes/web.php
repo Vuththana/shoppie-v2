@@ -15,7 +15,7 @@ Route::get('/product', function () {
     return Inertia::render('HomePage');
 });
 
-Route::get('/products/{id}', [WebProductController::class, 'show'])->name('products.show');
+Route::get('/product/{id}', [WebProductController::class, 'show'])->name('products.show');
 
 Route::apiResource('reviews', 'ReviewController');
 Route::get('/orders/{order}/qr-code', [OrderController::class, 'showQrCode'])->name('qr-code');

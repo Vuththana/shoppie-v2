@@ -5,11 +5,11 @@ import AuthenticationLayout from '@/Layouts/AuthenticationLayout'
 import { PageProps } from '@/types'
 import { Link } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
-import ProductCard from '@/Components/ProductCard';
 import Footer from '@/Components/Footer';
 import HotProduct from '@/Components/HotProduct'
 import CardFooter from '@/Components/CardFooter';
 import CategoryCard from '@/Components/CategoryCard';
+import Dropdown from '@/Components/Dropdown';
 interface Category {
   id: number;
   category_name: string;
@@ -66,22 +66,60 @@ if (error) {
                 <div className="flex justify-center mx-auto mt-[96px]">
                     <div className="mt-[100px] font-[680] text-center">
                         <h1 className="text-bold text-dark max-w-[16ch] sm:max-w-[60ch] text-6xl">Safety Trust Instant</h1>
-                        <div className="max-w-[100%] font-light text-center text-dark mb-20">
+                        <div className="max-w-[100%] font-light text-center text-dark mb-36">
                             <p>Shoppie ensures the safety and quality of all products, earning the trust of our customers through rigorous standards and exceptional service.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='max-w-[100%] gap-9 justify-center h-100 absolute bottom-0 px-[24px]'>
-                  <div className='py-0 mr-0 pr-0 static ml-auto overflow-hidden list-none p-0'>
+            <div className='max-w-[100%] gap-9 justify-center h-100 absolute bottom-3 px-[24px]'>
+                  <div className='py-0 mr-0 pr-0 static ml-auto list-none p-0'>
                     <div className='relative w-100 h-100 z-[1] flex transition-transform flex-initial'>
-                    {categories.map(category => (
-                      <CategoryCard
-                        category_name={category.category_name}
-                        key={category.id}
-                      >
-                      </CategoryCard>
-                    ))}              
+                      <div className='mx-4'>
+                      <Dropdown>
+                      <Dropdown.Trigger>
+                        {({ open }) => (
+                          <button className="bg-grey-500 text-black p-2 rounded-md border">
+                            {open 
+                            ? 
+                            <p className='flex mr-2 font-semibold'>
+                              Popular
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                              </svg>
+                            </p> 
+                            : 
+                            <p className='flex mr-2 font-semibold'>
+                              Popular
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                              </svg>
+                              </p>}
+                          </button>
+                        )}
+                      </Dropdown.Trigger>
+                      <Dropdown.Content align="left" width="48" contentClasses="py-2 bg-gray-100">
+                        {categories.map(category => (
+                          <Dropdown.Link href='/'>
+                            {category.category_name}
+                          </Dropdown.Link>
+                        ))}
+                      </Dropdown.Content>
+                      </Dropdown>
+                      </div>
+                      <div className='flex'>
+                      <Link href='/'>
+                          <h5 className='font-semibold flex-shrink-0 mr-[12px] text-center px-[12px] py-2 bg-white border-transparent hover:bg-blue-300 rounded-lg transition-transform transform cursor-pointer'>All</h5>                      
+                        </Link>
+                      {categories.map(category => (
+                        <CategoryCard
+                          category_name={category.category_name}
+                          key={category.id}
+                        >
+                        </CategoryCard>
+                    ))}           
+                      </div>
+   
                       </div>
                     </div>
                   </div>

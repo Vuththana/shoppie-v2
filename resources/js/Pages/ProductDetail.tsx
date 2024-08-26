@@ -34,7 +34,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     <div className="product-detail container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row">
       <img 
-          src={imageUrl} 
+          src={`/storage/${imageUrl}`} 
           alt={product.product_name} 
           className="w-full md:w-1/2 object-cover" 
         />
