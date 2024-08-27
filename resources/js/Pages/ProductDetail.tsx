@@ -100,34 +100,28 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   };
 
   return (
-    <div className="product-detail container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row">
-      <img 
-          src={`/storage/${imageUrl}`} 
-          alt={product.product_name} 
-          className="w-full md:w-1/2 object-cover" 
-        />
-        <div className="product-info md:w-1/2 md:pl-8">
-          <h1 className="text-3xl font-bold mb-4">{product.product_name}</h1>
-          <p className="text-lg text-gray-700 mb-4">{product.product_description}</p>
-          <div className="flex items-center">
-            {hasDiscount ? (
-              <>
-                <span className="text-3xl font-bold text-red-500">
-                  ${discountPrice?.toFixed(2)}
-                </span>
-                <span className="text-xl text-gray-500 line-through ml-4">
-                  ${sellingPrice.toFixed(2)}
-                </span>
-              </>
-            ) : (
-              <span className="text-3xl font-bold text-slate-900">
-                ${sellingPrice.toFixed(2)}
-              </span>
-            )}
+    <div className="font-sans bg-gray-50">
+      <div className="p-4 lg:max-w-7xl max-w-4xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-start gap-12 shadow-lg p-8 rounded-lg bg-white">
+          <div className="lg:w-2/3 w-full">
+            <div className="relative">
+              <img src={imageUrl} alt={product.product_name} className="w-full h-auto rounded-lg object-cover" />
+              <button type="button" className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" fill="#ccc" className="hover:fill-[#333]" viewBox="0 0 64 64">
+                  <path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              {/* Additional images or thumbnails */}
+              <img src={imageUrl} alt="Thumbnail" className="w-24 h-24 rounded-lg object-cover cursor-pointer shadow-md" />
+              <img src={imageUrl} alt="Thumbnail" className="w-24 h-24 rounded-lg object-cover cursor-pointer shadow-md" />
+              <img src={imageUrl} alt="Thumbnail" className="w-24 h-24 rounded-lg object-cover cursor-pointer shadow-md" />
+            </div>
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="lg:w-1/3 w-full">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{product.product_name}</h2>
 
             <div className="flex items-center space-x-4 mb-6">
@@ -155,24 +149,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
               <button type="button" className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg shadow-md">Buy Now</button>
               <button type="button" className="w-full px-6 py-3 border border-blue-600 bg-transparent hover:bg-gray-100 text-blue-600 text-lg font-semibold rounded-lg shadow-md">Add to Cart</button>
             </div>
-
-            {/* <div className="border-t border-gray-200 pt-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Rating Breakdown</h3>
-              <div className="space-y-2">
-                {ratingBreakdown.map((count, index) => (
-                  <div key={index} className="flex items-center">
-                    <span className="text-gray-600 font-medium">{5 - index} Stars</span>
-                    <div className="ml-4 w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                      <div
-                        className="bg-yellow-400 h-3 rounded-full"
-                        style={{ width: `${(count / reviews.length) * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="ml-4 text-gray-600">{count}</span>
-                  </div>
-                ))}
-              </div>
-            </div> */}
           </div>
         </div>
 
