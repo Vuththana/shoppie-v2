@@ -27,7 +27,7 @@ class ReviewController extends Controller
             'user_id' => 'required'
         ]);
 
-        $review = Review::create([  
+        $review = Review::create([
             'comment' => $validated['comment'],
             'rating' => $validated['rating'],
             'user_id' => $request->user_id,
@@ -45,6 +45,21 @@ class ReviewController extends Controller
         $review = Review::findOrFail($id);
         return response()->json($review);
     }
+
+    public function getReviewsByProduct($product_id)
+{
+    $reviews = Review::where('product_id', $product_id)
+        ->with('user') // Eagerly load the user relationship
+        ->get();
+
+    if ($reviews->isEmpty()) {
+        return response()->json(['message' => 'No reviews found'], 404);
+    }
+
+    return response()->json($reviews, 200);
+}
+
+
 
     /**
      * Update the specified review in storage.
