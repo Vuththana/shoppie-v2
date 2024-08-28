@@ -11,12 +11,30 @@ class HotProductController extends Controller
     public function index()
     {
         $products = DB::table('reviews')
-        ->select('products.id as product_id', 'products.image', 'products.product_name', 'products.product_description', 'products.stock', 'products.selling_price', DB::raw('COUNT(reviews.id) as review_count'))
+        ->select(
+            'products.id as product_id',
+            'products.image',
+            'products.product_name',
+            'products.product_description',
+            'products.stock',
+            'products.selling_price',
+            DB::raw('COUNT(reviews.id) as review_count'),
+            DB::raw('AVG(reviews.rating) as average_rating')
+        )
         ->join('products', 'reviews.product_id', '=', 'products.id')
-        ->groupBy('products.id', 'products.image', 'products.product_name', 'products.product_description', 'products.stock', 'products.selling_price')
-        ->havingRaw('COUNT(reviews.id) > 5') 
+        ->groupBy(
+            'products.id',
+            'products.image',
+            'products.product_name',
+            'products.product_description',
+            'products.stock',
+            'products.selling_price'
+        )
+        ->havingRaw('COUNT(reviews.id) >= 4')
+        ->havingRaw('AVG(reviews.rating) >= 3.5')
         ->get();
+    
+    return response()->json($products);
 
-        return response()->json($products);
     }
 }   
