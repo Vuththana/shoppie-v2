@@ -14,6 +14,8 @@ class Order extends Model
     protected $casts = [
         'status' => OrderStatus::class,
         'payment_method' => PaymentMethod::class,
+        'product_id' => 'array',
+        
     ];
 
     protected $fillable = [
@@ -24,6 +26,7 @@ class Order extends Model
         'quantity',
         'total_amount',
         'order_date',
+        'product_id',
     ];
 
     public function user()  
@@ -43,6 +46,6 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_products');
+        return $this->belongsToMany(Product::class);
     }
 }

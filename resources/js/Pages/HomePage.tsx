@@ -43,13 +43,8 @@ interface Review {
 
 const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
     const [products, setProducts] = useState<Product[]>([]);
-    const [val , setval] = useState('gggg');
     const [error, setError] = useState<string | null>(null);
-    const [arrVal , setArrVal] = useState({
-        name:'',
-        age:0,
-        gender:''
-    }); 
+ 
     useEffect(() => {
         async function fetchProducts() {
             try {

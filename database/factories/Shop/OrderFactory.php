@@ -28,7 +28,7 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' =>User::inRandomOrder()->first()->id,
-            'product_id'=> Product::inRandomOrder()->first()->id,
+            'product_id'=> Product::inRandomOrder()->limit(2)->pluck('id')->toArray(),
             'order_number' => fake()->unique()->numerify('ORD#####'),
             'order_date' => fake()->dateTime(),
             'quantity' => fake()->randomNumber(1, 10),

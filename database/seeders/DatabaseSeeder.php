@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // Icons for Category
-        $icons = [
-            ''
-        ];
+        // // Icons for Category
+        // $icons = [
+        //     ''
+        // ];
 
         $adminRole = Role::create(['name' => 'Admin']);
         $customerRole = Role::create(['name' => 'Customer']);

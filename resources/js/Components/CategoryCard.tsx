@@ -12,7 +12,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   ...props
 }) => {
   return (
-    <Link href="#">
+    <Link href="/product">
       <div className='relative flex-shrink-0 mr-[12px] text-center px-[24px] py-2 bg-white border-transparent hover:bg-blue-300 rounded-lg transition-transform transform cursor-pointer'>
           <h5 className='font-semibold'>{category_name}</h5>
       </div>
