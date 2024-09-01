@@ -44,7 +44,6 @@ interface Review {
 const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
- 
     useEffect(() => {
         async function fetchProducts() {
             try {
@@ -55,7 +54,7 @@ const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
                 const reviewsResponse = await fetch('http://127.0.0.1:8000/api/reviews');
                 const reviewsData: Review[] = await reviewsResponse.json();
 
-                
+
                 const productsWithRatings = productsData.map((product: Product) => {
                     const productReviews = reviewsData.filter(review => review.product_id === product.id);
                     const totalRating = productReviews.reduce((sum, review) => sum + review.rating, 0);
@@ -78,21 +77,21 @@ const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
         fetchProducts();
     }, []);
 
-   
+
 
     return (
         <>
             <AuthenticationLayout
-          
+
             >
-                
+
             </AuthenticationLayout>
             <div className="mt-24 text-center">
                 <h1 className="text-4xl font-bold mb-4">Welcome to Our Shop</h1>
                 <p className="text-lg mb-8">Find the best products at unbeatable prices.</p>
 
-            </div> 
-          
+            </div>
+
             <div className='container mx-auto px-4 py-8'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
                     {products.map(product => (
