@@ -41,9 +41,11 @@ interface Review {
     updated_at: string;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
+const HomePage: React.FC<HomePageProps> = ({ search }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
+
+
  
     useEffect(() => {
         async function fetchProducts() {
@@ -83,9 +85,7 @@ const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
     return (
         <>
             <AuthenticationLayout
-          
             >
-                
             </AuthenticationLayout>
             <div className="mt-24 text-center">
                 <h1 className="text-4xl font-bold mb-4">Welcome to Our Shop</h1>
@@ -95,7 +95,12 @@ const HomePage: React.FC<HomePageProps> = ({ user, header }) => {
           
             <div className='container mx-auto px-4 py-8'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
-                    {products.map(product => (
+                    {products.filter((product) => {
+                        return search.toLowerCase() === ''
+                            ? product
+                            : product.product_name.toLowerCase().includes(search)
+                    })
+                    .map(product => (
                         <ProductCard
                             image={product.image || './images/image.png'}
                             product_name={product.product_name}

@@ -10,6 +10,7 @@ import HotProduct from '@/Components/HotProduct'
 import CardFooter from '@/Components/CardFooter';
 import CategoryCard from '@/Components/CategoryCard';
 import Dropdown from '@/Components/Dropdown';
+import GuestLayout from '@/Layouts/GuestLayout';
 
 interface Category {
   id: number;
@@ -28,6 +29,8 @@ interface Product {
 
 
 export default function Welcome({auth}: PageProps) {
+  const isLoggedIn = auth.user !== null;
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -59,11 +62,17 @@ if (error) {
   return (
     <>
     <div className='min-h-screen flex flex-col'>
-      <AuthenticationLayout
-      user = {auth.user}
-      header = {<h2 className='font-semibold text-xl text-gray-800 leading-tight'></h2>}
-      >
-      </AuthenticationLayout>
+      {
+        isLoggedIn ?
+        <AuthenticationLayout
+        user = {auth.user}
+        header = {<h2 className='font-semibold text-xl text-gray-800 leading-tight'></h2>}
+        >
+        </AuthenticationLayout>
+        :
+        <GuestLayout></GuestLayout>
+      }
+
       <main>
       <section className="text-grey-100 relative justify-center flex border-b">
             <div className="max-w-[26ch] justify-center">

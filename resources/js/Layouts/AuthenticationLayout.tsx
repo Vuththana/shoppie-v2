@@ -4,6 +4,8 @@ import Footer from '@/Components/Footer'
 import Searchbar from '@/Components/SearchBar'
 import TextInput from '@/Components/TextInput'
 import { User } from '@/types'
+import { faArrowCircleLeft, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from '@inertiajs/react'
 import React, { PropsWithChildren, ReactNode, useContext, useState } from 'react'
 
@@ -33,9 +35,10 @@ export default function AuthenticationLayout({user, header, children}: PropsWith
         </span>
         <p className='mt-3'>Shoppie</p>
         </div>
-        <div>
-          <Searchbar />
-        </div>
+        <div className='w-full flex justify-end items-center'>
+          
+            <Link className='font-semibold' href={route('logout')} method='post'><FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout</Link>
+          </div>
       </div>
     </header>
     {/* <main className='mt-24'>
