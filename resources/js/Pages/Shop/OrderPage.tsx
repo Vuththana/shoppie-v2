@@ -10,7 +10,7 @@ export default function OrderPage({auth}: PageProps) {
       header = {<h2 className='font-semibold text-xl text-gray-800 leading-tight'></h2>}
     >
     </AuthenticationLayout>
-    <div className=''>  
+    <div className=''>
         <div className=''>
           <p></p>
         </div>
