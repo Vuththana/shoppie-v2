@@ -10,12 +10,14 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use App\Enums\OrderStatus;
+use App\Models\Shop\Product;
 use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Get;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -26,7 +28,6 @@ use Filament\Tables\Actions\DeleteAction;
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
-
     protected static ?string $navigationIcon = 'heroicon-s-shopping-cart';
     protected static ?string $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 5;
@@ -45,25 +46,20 @@ class OrderResource extends Resource
                     ->searchable()
                     ->disabled()
                     ->dehydrated(),
-                Repeater::make('orderProducts')
-                    ->relationship('orderProducts')
+                Repeater::make('product_id')
                     ->schema([
                         Select::make('product_id')
-                            ->relationship('product', 'product_name')
+                            ->options(Product::all()->pluck('product_name', 'id')->toArray())
+                            ->reactive()
                             ->required()
-                            ->label('Product Name'),
+                            ->label('Product Name')
+                            ->default([]),
                         TextInput::make('quantity')
                             ->required()
-                            ->label('Quantity'),
-                    ])
+                    ])  
                     ->columns(2)
                     ->label('Products')
                     ->collapsed(),
-                Select::make('products')
-                    ->label('Products')
-                    ->relationship('product', 'product_name')
-                    ->multiple()
-                    ->preload(),
                 ToggleButtons::make('status')
                     ->inline()
                     ->options(OrderStatus::class)
@@ -94,11 +90,6 @@ class OrderResource extends Resource
                     ->label('User Name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('product.product_name')
-                    ->label('Product Name')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
                 TextColumn::make('status')
                     ->label('Payment Status')
                     ->badge()

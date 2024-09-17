@@ -24,8 +24,12 @@ require __DIR__.'/auth.php';
 
 Route::get('/order', function() {
     return Inertia::render('Shop/OrderPage');
+<<<<<<< HEAD
+})->middleware('auth');
+=======
 });
 
 Route::get('/purchase', function() {
     return Inertia::render('Purchase/PurchaseOrder');
 });
+>>>>>>> 38dd0d1ccfd096cebb93d18c7a1eb1f32e0edd85
